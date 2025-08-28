@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>就活企業分析ノート</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>就活企業分析ノート</h1>
+        <nav class="nav-menu">
+            <button class="nav-btn" data-target="home-view">ホーム</button>
+            <button class="nav-btn" data-target="register-view">企業登録</button>
+            <button class="nav-btn" data-target="list-view">企業一覧</button>
+            <button class="nav-btn" data-target="compare-view">企業比較</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- ホーム画面 -->
+        <section id="home-view" class="view active-view">
+            <h2 class="section-title">ようこそ、就活企業分析ノートへ</h2>
+            <p class="intro-text">このアプリは、就職活動における企業分析の情報を一元管理し、効率的に比較検討するためのツールです。</p>
+            <p class="intro-text">
+                画面上部のメニューから、各機能にアクセスできます。
+                <ul>
+                    <li><strong>企業登録：</strong> 企業情報を入力・登録します。</li>
+                    <li><strong>企業一覧：</strong> 登録済みの企業情報をリストで確認します。</li>
+                    <li><strong>企業比較：</strong> 複数の企業を並べて、項目ごとに比較します。</li>
+                </ul>
+            </p>
+        </section>
+
+        <!-- 登録画面 -->
+        <section id="register-view" class="view">
+            <h2 class="section-title">企業情報入力</h2>
+            <form id="company-form" class="company-form">
+                <!-- 基本情報 -->
+                <fieldset>
+                    <legend>基本情報</legend>
+                    <div class="form-group">
+                        <label for="companyName">企業名<span class="required">*</span></label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="corporatePhilosophy">企業理念</label>
+                        <textarea id="corporatePhilosophy" name="corporatePhilosophy"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ceoName">代表者名</label>
+                        <input type="text" id="ceoName" name="ceoName">
+                    </div>
+                    <div class="form-group">
+                        <label for="headquarters">本社所在地</label>
+                        <input type="text" id="headquarters" name="headquarters">
+                    </div>
+                    <div class="form-group">
+                        <label for="foundedYearMonth">設立年</label>
+                        <input type="month" id="foundedYearMonth" name="foundedYearMonth">
+                    </div>
+                    <div class="form-group">
+                        <label for="employees">従業員数</label>
+                        <input type="number" id="employees" name="employees">
+                    </div>
+                    <div class="form-group">
+                        <label for="majorClients">主要取引先</label>
+                        <input type="text" id="majorClients" name="majorClients">
+                    </div>
+                    <div class="form-group">
+                        <label for="capital">資本金 (万円)</label>
+                        <input type="number" id="capital" name="capital">
+                    </div>
+                    <div class="form-group">
+                        <label for="sales">売上高 (万円)</label>
+                        <input type="number" id="sales" name="sales">
+                    </div>
+                    <div class="form-group">
+                        <label for="roe">自己資本比率 (ROE) (%)</label>
+                        <input type="number" id="roe" name="roe" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="operatingProfitMargin">経常利益率 (%)</label>
+                        <input type="number" id="operatingProfitMargin" name="operatingProfitMargin" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="mainBusiness">主力事業</label>
+                        <input type="text" id="mainBusiness" name="mainBusiness">
+                    </div>
+                    <div class="form-group">
+                        <label for="strengths">企業の強み</label>
+                        <textarea id="strengths" name="strengths"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="weaknesses">企業の弱み</label>
+                        <textarea id="weaknesses" name="weaknesses"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="targetCustomers">ターゲット顧客</label>
+                        <input type="text" id="targetCustomers" name="targetCustomers">
+                    </div>
+                </fieldset>
+
+                <!-- 採用関連情報 -->
+                <fieldset>
+                    <legend>採用関連情報</legend>
+                    <div class="form-group">
+                        <label for="idealCandidate">求める人材像</label>
+                        <textarea id="idealCandidate" name="idealCandidate"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recruitingPositions">募集職種</label>
+                        <input type="text" id="recruitingPositions" name="recruitingPositions">
+                    </div>
+                    <div class="form-group">
+                        <label for="hiringCount">採用予定数</label>
+                        <input type="number" id="hiringCount" name="hiringCount">
+                    </div>
+                    <div class="form-group">
+                        <label for="startingSalary">初任給 (月収・円)</label>
+                        <input type="number" id="startingSalary" name="startingSalary">
+                    </div>
+                    <div class="form-group">
+                        <label for="bonus">賞与</label>
+                        <input type="text" id="bonus" name="bonus">
+                    </div>
+                    <div class="form-group">
+                        <label for="workLocation">勤務地</label>
+                        <input type="text" id="workLocation" name="workLocation">
+                    </div>
+                    <div class="form-group">
+                        <label for="workingHours">勤務時間 (月残業時間)</label>
+                        <input type="text" id="workingHours" name="workingHours">
+                    </div>
+                    <div class="form-group">
+                        <label for="annualHolidays">年間休日数</label>
+                        <input type="number" id="annualHolidays" name="annualHolidays">
+                    </div>
+                    <div class="form-group">
+                        <label for="benefits">福利厚生</label>
+                        <textarea id="benefits" name="benefits"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="turnoverRate">離職率 (%)</label>
+                        <input type="number" id="turnoverRate" name="turnoverRate" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="averageAge">平均年齢</label>
+                        <input type="number" id="averageAge" name="averageAge" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="averageAnnualSalary">平均年収 (万円)</label>
+                        <input type="number" id="averageAnnualSalary" name="averageAnnualSalary">
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">メモ欄</label>
+                        <textarea id="notes" name="notes"></textarea>
+                    </div>
+                </fieldset>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">登録</button>
+                    <button type="button" class="btn btn-secondary nav-btn" data-target="list-view">企業一覧へ</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 企業一覧表示画面 -->
+        <section id="list-view" class="view">
+            <h2 class="section-title">登録済み企業一覧</h2>
+            <div id="companyList" class="company-list">
+                <p class="empty-message">まだ企業が登録されていません。</p>
+            </div>
+            <div class="button-group">
+                <button id="showCompareBtn" class="btn btn-primary">選択した企業を比較</button>
+            </div>
+        </section>
+
+        <!-- 企業比較画面 -->
+        <section id="compare-view" class="view">
+            <h2 class="section-title">企業比較</h2>
+            <div id="compareTableContainer">
+                <p class="empty-message">比較する企業を2つ以上選択してください。</p>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-secondary nav-btn" data-target="list-view">企業一覧に戻る</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- 企業詳細モーダル -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- カスタムアラートモーダル -->
+    <div id="alert-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-alert-btn">&times;</span>
+            <p id="alert-message"></p>
+        </div>
+    </div>
+</body>
+</html>
