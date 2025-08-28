@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     companyListDiv.innerHTML = '<p class="empty-message">まだ企業が登録されていません。</p>';
                 } else {
                     companies.forEach(company => {
-                        const foundedDate = company.foundedDate ? new Date(company.foundedDate).toLocaleDateString() : '不明';
+                        const foundedDate = company.foundedDate ? new Date(company.foundedDate).getFullYear() + '年' + (new Date(company.foundedDate).getMonth() + 1) + '月' : '不明';
                         const card = document.createElement('div');
                         card.classList.add('company-card');
                         card.innerHTML = `
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const key in fields) {
             html += `<tr><td>${fields[key]}</td>`;
             companies.forEach(c => {
-                const value = fields[key] === '設立日' && c[key] ? new Date(c[key]).toLocaleDateString() : c[key] || '-';
+                const value = fields[key] === '設立日' && c[key] ? new Date(c[key]).getFullYear() + '年' + (new Date(c[key]).getMonth() + 1) + '月' : c[key] || '-';
                 html += `<td>${value}</td>`;
             });
             html += '</tr>';

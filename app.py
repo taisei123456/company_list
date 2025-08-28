@@ -1,6 +1,7 @@
-import os 
+import os
 from flask import Flask, render_template, request, jsonify
 import pymysql
+import datetime
 
 app = Flask(__name__)
 
@@ -49,6 +50,15 @@ def handle_companies():
         # 企業情報の新規登録処理
         try:
             data = request.json
+            
+            # 日付形式の変換 (YYYY-MM形式で保存)
+            if 'foundedYearMonth' in data and data['foundedYearMonth']:
+                try:
+                    data['foundedDate'] = datetime.datetime.strptime(data['foundedYearMonth'], '%Y-%m').date()
+                    del data['foundedYearMonth']
+                except ValueError:
+                    del data['foundedYearMonth']
+            
             columns = ', '.join([f'`{key}`' for key in data.keys()])
             placeholders = ', '.join(['%s'] * len(data))
             values = list(data.values())
@@ -72,6 +82,12 @@ def handle_companies():
                 sql = "SELECT * FROM companies ORDER BY companyName"
                 cursor.execute(sql)
                 companies = cursor.fetchall()
+
+            # 設立日を文字列に変換
+            for company in companies:
+                if company.get('foundedDate'):
+                    company['foundedDate'] = company['foundedDate'].isoformat()
+            
             return jsonify({"success": True, "companies": companies})
         except Exception as e:
             print(f"企業情報取得エラー: {e}")
@@ -96,6 +112,10 @@ def handle_company(company_id):
                 cursor.execute(sql, (company_id,))
                 company = cursor.fetchone()
                 if company:
+                    # 設立日を文字列に変換
+                    if company.get('foundedDate'):
+                        company['foundedDate'] = company['foundedDate'].isoformat()
+                    
                     return jsonify({"success": True, "company": company})
                 else:
                     return jsonify({"success": False, "message": "企業情報が見つかりません。"})
@@ -109,6 +129,15 @@ def handle_company(company_id):
     elif request.method == 'PUT':
         try:
             data = request.json
+            
+            # 日付形式の変換
+            if 'foundedYearMonth' in data and data['foundedYearMonth']:
+                try:
+                    data['foundedDate'] = datetime.datetime.strptime(data['foundedYearMonth'], '%Y-%m').date()
+                    del data['foundedYearMonth']
+                except ValueError:
+                    del data['foundedYearMonth']
+            
             set_clauses = ', '.join([f"`{key}` = %s" for key in data.keys()])
             values = list(data.values())
             values.append(company_id)
@@ -167,6 +196,11 @@ def compare_companies():
             cursor.execute(sql, company_ids)
             companies = cursor.fetchall()
             
+        # 設立日を文字列に変換
+        for company in companies:
+            if company.get('foundedDate'):
+                company['foundedDate'] = company['foundedDate'].isoformat()
+            
         return jsonify({"success": True, "companies": companies})
     except Exception as e:
         print(f"比較情報取得エラー: {e}")
@@ -176,3 +210,4 @@ def compare_companies():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
+

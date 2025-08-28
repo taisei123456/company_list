@@ -65,6 +65,10 @@ body {
     display: block; /* アクティブな画面だけ表示する */
 }
 
+/* 比較画面がアクティブなときだけcontainerの幅を広げる */
+#compare-view.active-view {
+    max-width: 100%;
+}
 .section-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -269,10 +273,18 @@ body {
     padding: 0.75rem;
     border: 1px solid #ddd;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: none;
+}
+
+.compare-table th:first-child,
+.compare-table td:first-child {
+    min-width: 100px;
+    font-weight: bold;
+    color: #333; /* 文字色を黒に修正 */
+    background-color: #ecf0f1; /* 背景色を修正 */
 }
 
 .compare-table th {
